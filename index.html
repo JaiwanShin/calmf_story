@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 사무직 업무 효율성 AI 도구 분석 (Final Edition)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f8fafc; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 450px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .glass-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Toggle Button Styles */
+        .toggle-btn { transition: all 0.2s ease; border: 1px solid transparent; }
+        .toggle-btn:hover { transform: translateY(-1px); }
+        .toggle-btn.off { background-color: #f1f5f9; color: #94a3b8; border-color: #e2e8f0; opacity: 0.7; }
+        .toggle-btn.off .dot { background-color: #cbd5e1 !important; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+
+        <!-- Header -->
+        <header class="text-center space-y-4">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                2025 사무직 업무 효율성<br class="md:hidden" /> AI 솔루션 분석
+            </h1>
+            <p class="text-slate-500 max-w-2xl mx-auto text-lg md:text-xl font-medium">
+                실무 생산성을 극대화하는 8대 전략 도구 심층 비교
+            </p>
+        </header>
+
+        <!-- Hero: Gemini Pro Highlight -->
+        <section class="bg-gradient-to-br from-indigo-900 via-blue-800 to-indigo-900 rounded-3xl shadow-2xl p-8 md:p-12 text-white relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-white opacity-5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-400 opacity-10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+                <div class="space-y-6 max-w-4xl">
+                    <div class="flex items-center gap-3">
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider rounded-full border border-white/30">
+                            The Ultimate Choice
+                        </span>
+                        <h2 class="text-3xl md:text-5xl font-bold tracking-tight">Google Gemini Pro <span class="text-blue-300">(Model 3.0)</span></h2>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <p class="text-2xl md:text-3xl font-bold text-indigo-100 leading-snug border-l-4 border-blue-400 pl-4">
+                            "만약 단 하나의 도구만 사용해야 한다면,<br>정답은 무조건 <span class="text-white underline decoration-blue-400 underline-offset-4">Gemini Pro</span>입니다."
+                        </p>
+                        <p class="text-indigo-200 text-lg leading-relaxed pt-2">
+                            Gemini Pro는 단순한 AI가 아닙니다. 구글 드라이브, 문서, 이메일 등 <strong>모든 업무 데이터와 실시간으로 연결되는 유일한 '두뇌'</strong>입니다. 
+                            복잡한 프로젝트 맥락을 스스로 추론(Reasoning)하고, 수십 개의 파일을 동시에 분석하여 보고서를 완성하는 압도적인 퍼포먼스를 경험하세요.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex flex-col items-center justify-center bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 min-w-[240px] shadow-lg">
+                    <span class="text-6xl font-extrabold text-blue-300">No.1</span>
+                    <span class="text-lg font-medium text-indigo-200 mt-2">All-in-One AI</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Radar Chart Section (Full Width) -->
+        <section class="bg-white rounded-3xl shadow-lg border border-slate-100 p-8">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-slate-900">📊 도구별 업무 역량 비교 시각화</h3>
+                <p class="text-slate-500 mt-2">버튼을 클릭하여 원하는 도구만 차트에 표시해보세요.</p>
+            </div>
+
+            <!-- Custom Legend / Toggle Controls -->
+            <div class="flex flex-wrap justify-center gap-3 mb-8 max-w-5xl mx-auto" id="chartLegend">
+                <!-- Javascript will generate buttons here -->
+            </div>
+
+            <div class="chart-wrapper">
+                <canvas id="competencyChart"></canvas>
+            </div>
+        </section>
+
+        <!-- 4. Detailed Tools Matrix -->
+        <section class="space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-4 px-2">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">AI 도구 상세 분석표</h2>
+                    <p class="text-slate-500 text-sm mt-1">실무자가 반드시 알아야 할 디테일한 차별점</p>
+                </div>
+                
+                <!-- Filter Tabs -->
+                <div class="flex p-1 bg-slate-100 rounded-xl shadow-inner">
+                    <button class="filter-btn active px-4 py-2 text-sm font-bold rounded-lg transition-all text-slate-600 hover:text-slate-900" onclick="filterTable('all', this)">전체</button>
+                    <button class="filter-btn px-4 py-2 text-sm font-medium rounded-lg transition-all text-slate-500 hover:text-slate-900" onclick="filterTable('General', this)">종합(LLM)</button>
+                    <button class="filter-btn px-4 py-2 text-sm font-medium rounded-lg transition-all text-slate-500 hover:text-slate-900" onclick="filterTable('Research', this)">에이전트/검색</button>
+                    <button class="filter-tab px-4 py-2 text-sm font-medium rounded-lg transition-all text-slate-500 hover:text-slate-900" onclick="filterTable('Office', this)">실무/자동화</button>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left border-collapse min-w-[1200px]">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-200 glass-header sticky top-0 z-20">
+                                <th class="p-5 w-52 sticky left-0 bg-slate-50 z-30 shadow-[4px_0_8px_-4px_rgba(0,0,0,0.1)]">도구명</th>
+                                <th class="p-5 w-32 text-center">분류</th>
+                                <th class="p-5 w-36">월 비용</th>
+                                <th class="p-5 w-1/4">핵심 기능</th>
+                                <th class="p-5 w-1/4">사무직 실무 활용 (Case)</th>
+                                <th class="p-5 w-[30%] bg-indigo-50/30">디테일한 차별점 (Why This?)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="toolTableBody" class="divide-y divide-slate-100 text-sm text-slate-700 bg-white">
+                            <!-- Javascript will populate rows here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-right text-xs text-slate-400 px-4 mt-2">
+                * 비용은 개인 유료 요금제 기준이며, 플랫폼 정책에 따라 변동될 수 있습니다. (2025년 기준)
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- Data Source ---
+        const tools = [
+            {
+                name: "Gemini Pro",
+                version: "Model 3.0",
+                category: "General",
+                badgeColor: "bg-indigo-100 text-indigo-700 border-indigo-200",
+                price: "$19.99",
+                priceDetails: "월 19.99달러",
+                features: "Workspace(Docs, Drive) 완전 통합, 3.0 추론 모델, 멀티모달 분석",
+                usage: "드라이브 파일 통합 분석, 회의록/보고서 자동 생성, 복합 추론 업무",
+                strength: "<strong>단 하나의 툴만 써야 한다면 이것.</strong> 프로젝트의 <strong>맥락(Context)을 이해하고 스스로 사고(Reasoning)</strong>하여, 구글 생태계 안에서 비서처럼 직접 업무를 수행함.",
+                scores: [9.5, 9.5, 9, 8.5, 9], 
+                chartColor: '#4f46e5', // Indigo-600
+                initiallyVisible: true
+            },
+            {
+                name: "Genspark",
+                version: "Agent Search",
+                category: "Research",
+                badgeColor: "bg-amber-100 text-amber-700 border-amber-200",
+                price: "$19.99 (크레딧제)",
+                priceDetails: "월 $19.99 (크레딧 소진 시 제한)",
+                features: "자율 AI 에이전트, Sparkpage(자동 큐레이션), AI Slide/Sheet 생성",
+                usage: "시장 조사 주제 입력 시 위키피디아급 리포트 페이지 생성 → 즉시 PPT 초안으로 변환",
+                strength: "검색 결과를 나열하는 게 아니라, <strong>광고 없는 '나만의 리포트(Sparkpage)'</strong>를 먼저 만들어주고, 이를 <strong>PPT나 엑셀로 즉시 변환</strong>해주는 '자료 조사 종결자'.",
+                scores: [7, 6, 10, 9, 7],
+                chartColor: '#f59e0b', // Amber-500
+                initiallyVisible: true
+            },
+            {
+                name: "MS Copilot Pro",
+                version: "Office 365",
+                category: "Office",
+                badgeColor: "bg-sky-100 text-sky-700 border-sky-200",
+                price: "$20.00",
+                priceDetails: "월 20.00달러",
+                features: "MS Office 365(Excel, PPT, Word) 앱 내장형 AI",
+                usage: "Word 문서 내용을 기반으로 PPT 슬라이드 디자인 자동 생성, Outlook 이메일 요약",
+                strength: "별도 프로그램을 켤 필요 없이, <strong>직장인의 홈그라운드인 PPT와 엑셀 메뉴바</strong>에 붙어있어 접근성이 압도적임.",
+                scores: [8, 8, 7, 10, 8],
+                chartColor: '#0ea5e9', // Sky-500
+                initiallyVisible: true
+            },
+            {
+                name: "DeepL Pro",
+                version: "Translator",
+                category: "Office",
+                badgeColor: "bg-slate-100 text-slate-700 border-slate-200",
+                price: "$8.74",
+                priceDetails: "월 8.74달러 (Starter)",
+                features: "신경망 기반 뉘앙스 번역, 파일(.docx/.pptx) 서식 유지, 용어집(Glossary)",
+                usage: "해외 IR 자료(PDF/PPT) 레이아웃 유지하며 통번역, 사내 전문 용어 통일하여 번역",
+                strength: "단어 대 단어 번역이 아니라 <strong>'비즈니스 톤앤매너'를 완벽히 이해</strong>하며, PPT 서식이 깨지지 않게 <strong>파일 통째로 번역</strong>하는 기능은 타의 추종을 불허함.",
+                scores: [6, 3, 5, 2, 10],
+                chartColor: '#475569', // Slate-600
+                initiallyVisible: false
+            },
+            {
+                name: "GitHub Copilot",
+                version: "Automation",
+                category: "Office",
+                badgeColor: "bg-gray-100 text-gray-700 border-gray-200",
+                price: "$10.00",
+                priceDetails: "월 10.00달러",
+                features: "자연어 코딩, 엑셀 VBA/Python 스크립트 자동 생성, 터미널 명령어 추천",
+                usage: "복잡한 엑셀 데이터 정제 매크로 자동 작성, 반복되는 파일 정리 업무 자동화 스크립트 생성",
+                strength: "개발자가 아니어도 됨. <strong>'이 엑셀 파일에서 빨간색 셀만 모아서 새 시트로 옮겨줘'</strong>라고 말하면 실행 가능한 <strong>자동화 코드를 짜주는</strong> 엑셀/업무 자동화의 치트키.",
+                scores: [4, 8, 5, 3, 9.5],
+                chartColor: '#1f2937', // Gray-800
+                initiallyVisible: false
+            },
+            {
+                name: "ChatGPT Plus",
+                version: "GPT-4o",
+                category: "General",
+                badgeColor: "bg-emerald-100 text-emerald-700 border-emerald-200",
+                price: "$20.00",
+                priceDetails: "월 20.00달러",
+                features: "Advanced Data Analysis, 강력한 파일 해석, DALL-E 3, 커스텀 GPTs",
+                usage: "원시 데이터(Raw Data) 파일 업로드 후 심층 통계 분석 및 시각화, 창의적 아이데이션",
+                strength: "가장 <strong>범용적인 지능(General Intelligence)</strong>이 뛰어나며, 특히 데이터 파일을 업로드했을 때 <strong>파이썬을 백그라운드에서 실행</strong>해 분석해주는 능력은 데이터 분석가 수준.",
+                scores: [9, 10, 8, 8, 9],
+                chartColor: '#10b981', // Emerald-500
+                initiallyVisible: false
+            },
+            {
+                name: "Claude 3 Opus",
+                version: "Writer",
+                category: "General",
+                badgeColor: "bg-orange-100 text-orange-700 border-orange-200",
+                price: "$20.00",
+                priceDetails: "월 20.00달러",
+                features: "긴 문맥 이해(Long Context), Artifacts(문서 미리보기), 뛰어난 작문",
+                usage: "수백 페이지 논문/보고서의 맥락을 놓치지 않고 요약, 격식 있는 비즈니스 레터 작성",
+                strength: "<strong>'사람이 쓴 것 같은' 자연스러운 문장력</strong>은 AI 중 최고 수준. AI 특유의 기계적인 번역투가 싫다면 보고서 작성은 Claude가 정답.",
+                scores: [10, 8, 8, 7, 8],
+                chartColor: '#f97316', // Orange-500
+                initiallyVisible: false
+            },
+            {
+                name: "Perplexity Pro",
+                version: "Search",
+                category: "Research",
+                badgeColor: "bg-teal-100 text-teal-700 border-teal-200",
+                price: "$20.00",
+                priceDetails: "월 20.00달러",
+                features: "실시간 웹 검색, 각주(Footnote) 기반 출처 표시, 모델 선택 가능",
+                usage: "제안서 근거 자료 확보를 위한 팩트 체크, 최신 뉴스 트렌드 심층 검색",
+                strength: "거짓말(할루시네이션)을 하지 않기 위해 <strong>모든 문장에 출처(각주)를 의무적으로 표시</strong>함. 신뢰도가 생명인 기획서 작성 시 필수.",
+                scores: [7, 7, 10, 6, 6],
+                chartColor: '#14b8a6', // Teal-500
+                initiallyVisible: false
+            }
+        ];
+
+        let competencyChart;
+
+        // --- Chart Logic ---
+        function initChart() {
+            const ctx = document.getElementById('competencyChart').getContext('2d');
+            Chart.defaults.font.family = "'Pretendard', sans-serif";
+            
+            // Create datasets from all tools
+            const datasets = tools.map(tool => ({
+                label: tool.name,
+                data: tool.scores,
+                borderColor: tool.chartColor,
+                backgroundColor: hexToRgba(tool.chartColor, 0.1),
+                pointBackgroundColor: tool.chartColor,
+                borderWidth: 2,
+                hidden: !tool.initiallyVisible // Show only selected initially
+            }));
+
+            competencyChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['문서작성/요약', '데이터 추론/분석', '리서치/조사', 'PPT/시각화', '자동화/번역'],
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#f1f5f9' },
+                            pointLabels: {
+                                font: { size: 12, weight: '700' },
+                                color: '#334155'
+                            },
+                            ticks: { display: false, maxTicksLimit: 5 },
+                            suggestedMin: 0,
+                            suggestedMax: 10
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }, // Hide default legend, using custom one
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            titleColor: '#1e293b',
+                            bodyColor: '#475569',
+                            borderColor: '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 12,
+                            boxPadding: 6,
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 12 }
+                        }
+                    }
+                }
+            });
+
+            createCustomLegend();
+        }
+
+        // --- Custom Toggle Legend ---
+        function createCustomLegend() {
+            const container = document.getElementById('chartLegend');
+            container.innerHTML = '';
+
+            tools.forEach((tool, index) => {
+                const btn = document.createElement('button');
+                const isVisible = tools[index].initiallyVisible;
+                
+                btn.className = `toggle-btn flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm ${isVisible ? '' : 'off'}`;
+                btn.style.backgroundColor = isVisible ? 'white' : '#f1f5f9';
+                btn.style.color = isVisible ? '#334155' : '#94a3b8';
+                btn.style.borderColor = isVisible ? '#cbd5e1' : 'transparent';
+                
+                // Dot color
+                const dot = document.createElement('span');
+                dot.className = 'dot w-2.5 h-2.5 rounded-full';
+                dot.style.backgroundColor = tool.chartColor;
+                
+                btn.appendChild(dot);
+                btn.appendChild(document.createTextNode(tool.name));
+                
+                btn.onclick = () => toggleDataset(index, btn, tool.chartColor);
+                container.appendChild(btn);
+            });
+        }
+
+        function toggleDataset(index, btn, color) {
+            const isHidden = competencyChart.data.datasets[index].hidden;
+            competencyChart.data.datasets[index].hidden = !isHidden;
+            competencyChart.update();
+
+            // Update Button Style
+            const nowVisible = !!isHidden; // If it WAS hidden, it is NOW visible
+            if (nowVisible) {
+                btn.classList.remove('off');
+                btn.style.backgroundColor = 'white';
+                btn.style.color = '#334155';
+                btn.style.borderColor = '#cbd5e1';
+                btn.querySelector('.dot').style.backgroundColor = color;
+            } else {
+                btn.classList.add('off');
+                btn.style.backgroundColor = '#f1f5f9';
+                btn.style.color = '#94a3b8';
+                btn.style.borderColor = 'transparent';
+                btn.querySelector('.dot').style.backgroundColor = '#cbd5e1';
+            }
+        }
+
+        // Helper
+        function hexToRgba(hex, alpha) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        // --- Table Logic ---
+        function renderTable(filter) {
+            const tbody = document.getElementById('toolTableBody');
+            tbody.innerHTML = '';
+
+            const filteredTools = filter === 'all' 
+                ? tools 
+                : tools.filter(t => {
+                    if (filter === 'General') return t.category === 'General';
+                    if (filter === 'Research') return t.category === 'Research';
+                    if (filter === 'Office') return t.category === 'Office';
+                    return false;
+                });
+
+            filteredTools.forEach((tool) => {
+                const isGemini = tool.name.includes('Gemini');
+                const row = document.createElement('tr');
+                
+                row.className = `group hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-0 ${isGemini ? 'bg-indigo-50/60' : ''}`;
+                
+                let categoryLabel = '';
+                if(tool.category === 'General') categoryLabel = '종합 (LLM)';
+                else if(tool.category === 'Research') categoryLabel = '에이전트';
+                else categoryLabel = '실무 특화';
+
+                row.innerHTML = `
+                    <td class="p-5 font-semibold text-slate-800 sticky left-0 z-10 
+                        ${isGemini ? 'bg-indigo-50/95 text-indigo-800' : 'bg-white group-hover:bg-slate-50'} 
+                        transition-colors shadow-[4px_0_8px_-4px_rgba(0,0,0,0.05)] border-r border-slate-100">
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-2">
+                                ${tool.name}
+                                ${isGemini ? '<span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span></span>' : ''}
+                            </div>
+                            <span class="text-[10px] font-normal text-slate-400 mt-0.5">${tool.version}</span>
+                        </div>
+                    </td>
+                    <td class="p-5 text-center">
+                        <span class="inline-flex items-center justify-center px-2.5 py-1 rounded-md text-xs font-bold border whitespace-nowrap ${tool.badgeColor}">
+                            ${categoryLabel}
+                        </span>
+                    </td>
+                    <td class="p-5 text-slate-500 font-mono text-xs font-medium">
+                        ${tool.price}
+                        <div class="text-[10px] text-slate-400 mt-1 leading-tight">${tool.priceDetails}</div>
+                    </td>
+                    <td class="p-5 text-slate-700 leading-snug font-medium text-sm">${tool.features}</td>
+                    <td class="p-5 text-slate-600 leading-snug text-sm">${tool.usage}</td>
+                    <td class="p-5 text-slate-600 text-sm leading-relaxed ${isGemini ? 'bg-indigo-100/30 font-medium text-indigo-900' : 'bg-slate-50/50'} rounded-r-xl group-hover:bg-slate-100/80 transition-colors">
+                        ${tool.strength}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // --- Filter Tabs UI ---
+        function filterTable(category, btnElement) {
+            renderTable(category);
+            document.querySelectorAll('button').forEach(btn => {
+                if(btn.classList.contains('filter-btn') || btn.classList.contains('filter-tab')) {
+                   btn.className = "filter-btn px-4 py-2 text-sm font-medium rounded-lg transition-all text-slate-500 hover:text-slate-900 bg-transparent hover:bg-slate-200/50";
+                }
+            });
+            btnElement.className = "filter-btn active px-4 py-2 text-sm font-bold rounded-lg transition-all text-indigo-700 bg-white shadow-sm ring-1 ring-slate-200";
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+            renderTable('all');
+            const allBtn = document.querySelector('button[onclick="filterTable(\'all\', this)"]');
+            if(allBtn) filterTable('all', allBtn);
+        });
+    </script>
+</body>
+</html>
